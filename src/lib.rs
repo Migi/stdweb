@@ -183,6 +183,7 @@ pub use webcore::symbol::Symbol;
 
 pub use webcore::unsafe_typed_array::UnsafeTypedArray;
 pub use webcore::once::Once;
+pub use webcore::fnhandle::{FnOnceHandle, FnMutHandle, FnHandle};
 pub use webcore::instance_of::InstanceOf;
 pub use webcore::reference_type::ReferenceType;
 pub use webcore::serialization::JsSerialize;

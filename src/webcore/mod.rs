@@ -6,6 +6,7 @@ pub mod number;
 pub mod serialization;
 pub mod ffi;
 pub mod callfn;
+pub mod fnhandle;
 pub mod newtype;
 pub mod try_from;
 pub mod object;
