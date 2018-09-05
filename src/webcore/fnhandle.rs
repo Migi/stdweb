@@ -1,4 +1,5 @@
 use std::marker::PhantomData;
+use std::fmt::{Debug, Formatter, Error};
 
 use discard::Discard;
 use webcore::value::{Value, Reference};
@@ -7,21 +8,21 @@ use webcore::once::Once;
 use webcore::serialization::JsSerializeOwned;
 use webcore::try_from::{TryFrom, TryInto};
 
-#[derive( Debug )]
+// TODO: should this be Clone?
 pub struct FnOnceHandle< Args, Output > {
     reference: Reference,
 	phantom_args: PhantomData<Args>,
 	phantom_output: PhantomData<Output>
 }
 
-#[derive( Debug, Clone )]
+#[derive( Clone )]
 pub struct FnMutHandle< Args, Output > {
     reference: Reference,
 	phantom_args: PhantomData<Args>,
 	phantom_output: PhantomData<Output>
 }
 
-#[derive( Debug, Clone )]
+#[derive( Clone )]
 pub struct FnHandle< Args, Output > {
     reference: Reference,
 	phantom_args: PhantomData<Args>,
@@ -49,6 +50,24 @@ impl< Args, Output > Discard for FnHandle< Args, Output > {
         js! { @(no_return)
             @{&self.reference}.drop();
         }
+    }
+}
+
+impl< Args, Output > Debug for FnOnceHandle< Args, Output > {
+    fn fmt( &self, fmt: &mut Formatter ) -> Result< (), Error > {
+		fmt.debug_tuple("FnOnceHandle").field(&self.reference).finish()
+    }
+}
+
+impl< Args, Output > Debug for FnMutHandle< Args, Output > {
+    fn fmt( &self, fmt: &mut Formatter ) -> Result< (), Error > {
+		fmt.debug_tuple("FnMutHandle").field(&self.reference).finish()
+    }
+}
+
+impl< Args, Output > Debug for FnHandle< Args, Output > {
+    fn fmt( &self, fmt: &mut Formatter ) -> Result< (), Error > {
+		fmt.debug_tuple("FnHandle").field(&self.reference).finish()
     }
 }
 
